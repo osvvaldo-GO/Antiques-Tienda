@@ -1,0 +1,17 @@
+{
+  "name": "antique-auction-platform",
+  "version": "1.0.0",
+  "description": "Full stack antique auction platform",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node seed-data.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6"
+  }
+}

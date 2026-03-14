@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antiques Tienda</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <svg width="80" height="70" viewBox="0 0 80 70" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#00bcd4;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#0097a7;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <!-- Letra A elegante (patas de la A) -->
+          <path d="M 10 62 Q 18 60 28 32 L 40 5 C 42 15 44 22 45 35 C 46 45 47 54 48 62"
+                stroke="url(#logoGradient)"
+                stroke-width="3.5"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"/>
+          <!-- Barra horizontal de la A fusionada con la T, estilo Coca-Cola -->
+          <path d="M 14 37 C 22 40 30 36 40 35 C 52 34 62 29 82 26"
+                stroke="url(#logoGradient)"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"/>
+        </svg>
+        <div class="logo-text">
+          <h1>Antiques Tienda</h1>
+          <p>Antique Auction Platform</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="hero-banner">
+      <img src="/imagenes/ImágenAnticuario.jpg" alt="Vintage Store" class="hero-image">
+      <div class="hero-overlay">
+        <h2>Discover Timeless Treasures</h2>
+        <p>Authentic antiques, art, and vintage furniture</p>
+      </div>
+    </div>
+
+    <nav class="main-nav">
+      <button class="nav-btn active" data-section="auctions">Auctions</button>
+      <button class="nav-btn" data-section="vitrina">Vitrina de Exhibición</button>
+      <button class="nav-btn" data-section="muebles">Muebles</button>
+      <button class="nav-btn" data-section="libros">Libros</button>
+      <button class="nav-btn admin-only" data-section="contabilidad" style="display: none;">Contabilidad</button>
+      <button class="nav-btn admin-only" data-section="consultas" style="display: none;">Consultas</button>
+      <button class="nav-btn admin-only" id="loginBtn">Admin Login</button>
+      <button class="nav-btn admin-only" id="logoutBtn" style="display: none;">Logout</button>
+    </nav>
+
+    <!-- Sección de Subastas -->
+    <div id="auctions-section" class="content-section active">
+      <div class="admin-section admin-only" style="display: none;">
+        <h2>Admin Panel - Auctions</h2>
+        <form id="productForm">
+          <input type="text" id="nombre" placeholder="Item Name" required>
+          <textarea id="descripcion" placeholder="Description" rows="3"></textarea>
+          <input type="number" id="precio_inicial" placeholder="Starting Price" step="0.01" required>
+          <input type="number" id="duracion" placeholder="Duration (minutes)" required>
+          <input type="text" id="imagen" placeholder="Image filename (e.g., item.jpg) or URL">
+          <div class="form-buttons">
+            <button type="submit">Publish Item</button>
+            <button type="button" id="resetForm">Reset Form</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="auction-section">
+        <h2>Active Auctions</h2>
+        <div id="productList"></div>
+      </div>
+    </div>
+
+    <!-- Sección de Inventario -->
+    <div id="inventory-section" class="content-section">
+      <div class="admin-section admin-only" style="display: none;">
+        <h2>Admin Panel - Inventory</h2>
+        <form id="inventoryForm">
+          <input type="text" id="inv_nombre" placeholder="Item Name" required>
+          <textarea id="inv_descripcion" placeholder="Description" rows="3"></textarea>
+          <select id="inv_categoria" required>
+            <option value="">Select Category</option>
+            <option value="vitrina">Vitrina de Exhibición</option>
+            <option value="muebles">Muebles</option>
+            <option value="libros">Libros</option>
+          </select>
+          <input type="number" id="inv_precio_compra" placeholder="Purchase Price" step="0.01" required>
+          <input type="number" id="inv_precio_venta" placeholder="Sale Price" step="0.01">
+          <select id="inv_estado" required>
+            <option value="disponible">Disponible</option>
+            <option value="vendido">Vendido</option>
+            <option value="reservado">Reservado</option>
+          </select>
+          <input type="text" id="inv_imagen" placeholder="Image filename (e.g., item.jpg) or URL">
+          <div class="form-buttons">
+            <button type="submit">Add to Inventory</button>
+            <button type="button" id="resetInventoryForm">Reset Form</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="auction-section">
+        <h2 id="inventoryTitle">Inventory</h2>
+        <div id="inventoryList"></div>
+      </div>
+    </div>
+
+    <!-- Sección de Contabilidad -->
+    <div id="contabilidad-section" class="content-section">
+      <div class="admin-section">
+        <h2>Accounting Dashboard</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Total Purchases</h3>
+            <p class="stat-value" id="totalCompras">$0.00</p>
+          </div>
+          <div class="stat-card">
+            <h3>Total Sales</h3>
+            <p class="stat-value" id="totalVentas">$0.00</p>
+          </div>
+          <div class="stat-card profit">
+            <h3>Net Profit</h3>
+            <p class="stat-value" id="ganancia">$0.00</p>
+          </div>
+          <div class="stat-card">
+            <h3>Available Items</h3>
+            <p class="stat-value" id="productosDisponibles">0</p>
+          </div>
+          <div class="stat-card">
+            <h3>Items Sold</h3>
+            <p class="stat-value" id="productosVendidos">0</p>
+          </div>
+        </div>
+        <div class="category-stats">
+          <h3>Inventory by Category</h3>
+          <div id="categoryStats"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de Consultas -->
+    <div id="consultas-section" class="content-section">
+      <div class="admin-section">
+        <h2>Customer Inquiries</h2>
+        <div id="consultasList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>
