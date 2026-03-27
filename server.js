@@ -77,6 +77,9 @@ function requireAuth(req, res, next) {
 const ADMIN_USER = process.env.ADMIN_USER || 'admin';
 let ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || '';
 
+console.log('ADMIN_USER cargado:', ADMIN_USER);
+console.log('ADMIN_PASSWORD_HASH cargado:', ADMIN_PASSWORD_HASH ? 'SI (longitud: ' + ADMIN_PASSWORD_HASH.length + ')' : 'NO - usando fallback');
+
 if (!ADMIN_PASSWORD_HASH) {
   const defaultPass = process.env.ADMIN_PASSWORD || 'vintage2026';
   ADMIN_PASSWORD_HASH = bcrypt.hashSync(defaultPass, 12);
