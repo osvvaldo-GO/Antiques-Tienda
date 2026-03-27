@@ -1,147 +1,234 @@
-# 🏺 Antiques Tienda - Contexto del Proyecto
+# 🏺 Antiques Tienda - Documento de Contexto del Proyecto
 
-## Descripción
-Plataforma full-stack de subastas y tienda de antigüedades, arte y muebles usados.
-Proyecto académico universitario en desarrollo activo.
+## ⚠️ INSTRUCCIONES PARA KIRO
+Si estás leyendo esto en una nueva conversación, este documento contiene
+todo el contexto necesario para retomar el proyecto exactamente donde se dejó.
+El usuario es Oswaldo, estudiante universitario, proyecto académico.
 
-## Stack Tecnológico
-- Backend: Node.js + Express
-- Base de datos: SQLite (database.sqlite)
-- Frontend: HTML + CSS + Vanilla JavaScript
-- Puerto local: 4000 (http://localhost:4000)
+---
 
-## Estructura de Archivos
+## 📌 Datos del Proyecto
+
+- **Nombre:** Antiques Tienda
+- **Descripción:** Plataforma full-stack de subastas y tienda de antigüedades, arte y muebles usados
+- **Tipo:** Proyecto académico universitario (práctica profesional)
+- **Estado:** En producción ✅
+- **URL en producción:** https://antiques-tienda.onrender.com
+- **URL local:** http://localhost:4000
+
+---
+
+## 🔐 Credenciales
+
+- **Admin usuario:** admin
+- **Admin contraseña:** vintage2026
+- **GitHub usuario:** osvvaldo-GO
+- **GitHub repositorio:** https://github.com/osvvaldo-GO/Antiques-Tienda
+- **Render servicio:** antiques-tienda (ID: SRV-D6RKL40GJCHC73BboIF0)
+- **Render email:** o.grajales51@pascualbravo.edu.co
+
+---
+
+## 🛠️ Stack Tecnológico
+
+- **Backend:** Node.js + Express
+- **Base de datos:** SQLite (database.sqlite)
+- **Frontend:** HTML + CSS + Vanilla JavaScript
+- **Hosting:** Render.com (plan gratuito)
+- **Repositorio:** GitHub
+
+---
+
+## 📁 Estructura de Archivos
+
 ```
 PROYECTOS KIRO/
-├── server.js          # Servidor principal
-├── package.json       # Dependencias
-├── seed-data.js       # Datos de ejemplo
-├── render.yaml        # Configuración para Render.com
-├── database.sqlite    # Base de datos (se crea automáticamente)
-├── .gitignore
-├── DEPLOYMENT.md      # Guía de deployment
-├── PROYECTO.md        # Este archivo
+├── server.js              # Servidor principal (Express + SQLite)
+├── package.json           # Dependencias y scripts
+├── seed-data.js           # Script para cargar datos de ejemplo
+├── render.yaml            # Configuración para Render.com
+├── database.sqlite        # Base de datos local (NO subir a GitHub)
+├── .gitignore             # Archivos ignorados por Git
+├── DEPLOYMENT.md          # Guía detallada de deployment
+├── PROYECTO.md            # Este archivo (contexto del proyecto)
 ├── public/
-│   ├── index.html     # Página principal
-│   ├── style.css      # Estilos
-│   ├── script.js      # Lógica del cliente
-│   └── auth.js        # Sistema de autenticación
-└── imagenes/          # Imágenes de productos (ej: reloj-1920.jpg)
+│   ├── index.html         # Página principal
+│   ├── style.css          # Estilos (tema aqua blue #00bcd4)
+│   ├── script.js          # Lógica del cliente
+│   └── auth.js            # Sistema de autenticación
+└── imagenes/              # Imágenes locales de productos
+    └── ImágenAnticuario.jpg  # Imagen institucional del hero banner
 ```
 
-## Credenciales de Administrador
-- Usuario: admin
-- Contraseña: vintage2026
-- URL local: http://localhost:4000
+---
 
-## Funcionalidades Implementadas
+## ✅ Funcionalidades Implementadas
 
-### ✅ Sistema de Subastas
-- Publicar artículos con precio inicial y duración configurable
+### Sistema de Subastas
+- Publicar artículos con precio inicial y duración configurable en minutos
 - Temporizador en tiempo real con cuenta regresiva
-- Sistema de pujas con código de pujador autogenerado
+- Sistema de pujas con código de pujador autogenerado (BIDxxxxxxx)
 - Detección automática de ganador al terminar el tiempo
-- Historial de pujas en orden descendente
 - Pantalla de ganador con información completa
+- Historial de pujas en orden descendente
+- Botón para limpiar historial
 
-### ✅ Secciones de Inventario
+### Secciones de Inventario
 - Vitrina de Exhibición (antigüedades)
 - Muebles
 - Libros
 - Cada sección con gestión completa de inventario
+- Estados: Disponible, Vendido, Reservado
 
-### ✅ Sistema de Autenticación
+### Sistema de Autenticación
 - Login de administrador (admin/vintage2026)
-- Sesiones con sessionId almacenado en localStorage
+- Sesiones con sessionId en localStorage
+- Override de fetch para incluir sessionId automáticamente
 - Vistas diferenciadas: público vs administrador
 
-### ✅ Vista Pública (sin login)
+### Vista Pública (sin login)
 - Ve productos disponibles (NO los vendidos)
 - Solo ve precio de VENTA (NO precio de compra)
-- Botón "Estoy Interesado" para contactar
-- Puede pujar en subastas
+- Botón "Estoy Interesado" para contactar al admin
+- Puede pujar en subastas libremente
 
-### ✅ Vista Administrador (con login)
+### Vista Administrador (con login)
 - Ve precio de compra Y precio de venta
-- Ve ganancia por producto
+- Ve ganancia por producto vendido
 - Panel de administración completo
 - Botón "Contabilidad" (solo admin)
 - Botón "Consultas" (solo admin)
 - Puede agregar/editar/eliminar productos
 - Puede marcar productos como vendidos
 
-### ✅ Sistema Contable
+### Sistema Contable
 - Total de compras
 - Total de ventas
 - Ganancia neta
 - Estadísticas por categoría
 - Solo visible para administrador
 
-### ✅ Sistema de Consultas
-- Clientes envían formulario de interés
+### Sistema de Consultas de Clientes
+- Clientes envían formulario (nombre, email, teléfono, mensaje)
 - Admin ve todas las consultas
 - Estados: Pendiente → Contactado → Completado → Archivado
 
-### ✅ Diseño
+### Diseño
 - Tema aqua blue (#00bcd4)
-- Logo SVG: letras A+T fusionadas (A estilizada con barra horizontal extendida)
+- Logo SVG: letras A+T fusionadas (A estilizada con barra horizontal extendida al estilo Coca-Cola)
 - Nombre: "Antiques Tienda"
 - Banner hero con imagen institucional (ImágenAnticuario.jpg)
-- Diseño responsive
+- Diseño responsive (móvil y escritorio)
 
-## API REST Implementada
-- GET /productos - Listar productos de subasta
-- POST /subir-producto - Publicar producto en subasta
-- POST /pujar - Realizar puja
-- GET /historial/:id - Historial de pujas
-- POST /borrar-historial - Limpiar historial
-- DELETE /producto/:id - Eliminar producto
-- GET /inventario?categoria= - Listar inventario (público/admin)
-- POST /inventario - Agregar al inventario (admin)
-- PUT /inventario/:id - Actualizar estado (admin)
-- DELETE /inventario/:id - Eliminar del inventario (admin)
-- GET /estadisticas - Estadísticas contables (admin)
-- POST /consulta - Enviar consulta de interés (público)
-- GET /consultas - Ver todas las consultas (admin)
-- PUT /consulta/:id - Actualizar estado consulta (admin)
-- POST /login - Autenticación admin
-- POST /logout - Cerrar sesión
-- GET /check-auth - Verificar sesión
+---
 
-## Base de Datos (SQLite)
-Tablas:
-- productos - Artículos en subasta
-- pujas - Historial de pujas
-- inventario - Stock de la tienda
-- transacciones - Registro contable
-- consultas - Consultas de clientes interesados
+## 🗄️ Base de Datos (SQLite)
 
-## Imágenes
-- Carpeta: /imagenes/ (en raíz del proyecto)
-- Imagen institucional: ImágenAnticuario.jpg
-- Productos: reloj-1920.jpg, etc.
-- Nota: nombres sin espacios (usar guiones)
+### Tablas:
+- **productos** - Artículos en subasta (nombre, descripcion, precio_inicial, duracion, fecha_inicio, imagen)
+- **pujas** - Historial de pujas (producto_id, apodo, codigo, email, telefono, monto, fecha)
+- **inventario** - Stock de la tienda (nombre, descripcion, categoria, precio_compra, precio_venta, estado, imagen, fecha_ingreso, fecha_venta)
+- **transacciones** - Registro contable (inventario_id, tipo, monto, descripcion, fecha)
+- **consultas** - Consultas de clientes (producto_id, producto_nombre, categoria, nombre_cliente, email, telefono, mensaje, fecha, estado)
 
-## Comandos
+---
+
+## 🌐 API REST
+
+| Método | Endpoint | Descripción | Auth |
+|--------|----------|-------------|------|
+| GET | /productos | Listar productos subasta | No |
+| POST | /subir-producto | Publicar en subasta | No |
+| POST | /pujar | Realizar puja | No |
+| GET | /historial/:id | Historial de pujas | No |
+| POST | /borrar-historial | Limpiar historial | No |
+| DELETE | /producto/:id | Eliminar producto subasta | No |
+| GET | /inventario?categoria= | Listar inventario | No (filtra datos) |
+| POST | /inventario | Agregar al inventario | Sí |
+| PUT | /inventario/:id | Actualizar estado | Sí |
+| DELETE | /inventario/:id | Eliminar del inventario | Sí |
+| GET | /estadisticas | Estadísticas contables | Sí |
+| POST | /consulta | Enviar consulta | No |
+| GET | /consultas | Ver todas las consultas | Sí |
+| PUT | /consulta/:id | Actualizar estado consulta | Sí |
+| POST | /login | Autenticación admin | No |
+| POST | /logout | Cerrar sesión | No |
+| GET | /check-auth | Verificar sesión | No |
+
+---
+
+## 💻 Comandos Útiles
+
 ```bash
-npm start        # Iniciar servidor en puerto 4000
-npm run seed     # Cargar datos de ejemplo (15 productos)
+# Iniciar servidor local
+npm start
+
+# Cargar datos de ejemplo (15 productos)
+npm run seed
+
+# Subir cambios a GitHub (y Render actualiza automáticamente)
+git add .
+git commit -m "descripción del cambio"
+git push
 ```
 
-## Pendiente por Implementar
-- [ ] Publicación en internet (GitHub + Render.com o Ngrok)
+---
+
+## ⚠️ Limitaciones Actuales (Pendiente Resolver)
+
+### Imágenes en Producción
+- Render plan gratuito tiene almacenamiento efímero
+- Las imágenes locales NO persisten en producción
+- **Solución pendiente:** Integrar Cloudinary (gratis, 25GB)
+- **Solución temporal:** Usar URLs externas (Imgur.com)
+
+### Plan Gratuito Render
+- El servicio se "duerme" tras 15 min de inactividad
+- Primera carga puede tardar 30-60 segundos
+- Para evitarlo: upgrade a $7/mes
+
+---
+
+## 📋 Pendiente por Implementar
+
+- [ ] **Cloudinary** - Sistema profesional de imágenes (PRÓXIMA SESIÓN)
 - [ ] Ajuste fino del logo (pata derecha de la A más curvilínea)
 - [ ] Sistema de registro de clientes (opcional)
 - [ ] Carrito de compras (opcional, para futuro)
+- [ ] Notificaciones por email al admin cuando llega una consulta
 
-## Notas Importantes
-- El archivo database.sqlite NO se sube a GitHub (.gitignore)
-- Las imágenes están en /imagenes/ (NO en /public/)
-- El servidor sirve /imagenes/ como estático
-- En Render.com, los datos persisten mientras el servicio esté activo
-- Plan gratuito de Render: se "duerme" tras 15 min de inactividad
+---
 
-## Próximos Pasos
-1. Publicar en internet con Ngrok (temporal) o Render (permanente)
-2. Cargar stock real de productos
-3. Compartir URL con clientes y amigos
+## 🚀 Cómo Retomar Este Proyecto
+
+Cuando inicies una nueva conversación con Kiro, escribe:
+
+> "Kiro, tengo un proyecto en desarrollo llamado Antiques Tienda.
+> Lee el archivo PROYECTO.md y retomemos donde estábamos."
+
+Kiro leerá este documento y estará al tanto de todo el contexto,
+el estado actual y lo que falta por implementar.
+
+---
+
+## 📝 Historial de Sesiones
+
+### Sesión 1
+- Creación del proyecto base (subastas, inventario, contabilidad)
+- Sistema de autenticación admin
+- Diseño responsive aqua blue
+- Logo A+T fusionadas
+
+### Sesión 2
+- Corrección de imágenes (carpeta /imagenes/)
+- Banner hero institucional
+- Cambio nombre a "Antiques Tienda"
+- Sistema de consultas de clientes
+- Precios de compra ocultos al público
+- Publicación en GitHub + Render.com
+- URL en producción: https://antiques-tienda.onrender.com
+
+### Próxima Sesión
+- Integrar Cloudinary para imágenes persistentes
+- Ajustes finales de diseño
+- Cargar stock real de productos

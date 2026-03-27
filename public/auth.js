@@ -1,180 +1,144 @@
-// Store original fetch before overriding
 const originalFetch = window.fetch;
 
 let sessionId = localStorage.getItem('sessionId');
 let isAuthenticated = false;
 
-// Check authentication on page load
+// --- Verificar sesión al cargar la página ---
 async function checkAuth() {
   if (!sessionId) {
     updateUIForGuest();
     return;
   }
-
   try {
-    const response = await originalFetch('/check-auth', {
+    const res = await originalFetch('/check-auth', {
       headers: { 'x-session-id': sessionId }
     });
-    const data = await response.json();
-    
+    const data = await res.json();
     if (data.authenticated) {
       isAuthenticated = true;
       updateUIForAdmin();
     } else {
-      isAuthenticated = false;
-      sessionId = null;
-      localStorage.removeItem('sessionId');
-      updateUIForGuest();
+      clearSession();
     }
-  } catch (error) {
-    console.error('Error checking auth:', error);
-    updateUIForGuest();
+  } catch {
+    clearSession();
   }
 }
 
+function clearSession() {
+  sessionId = null;
+  isAuthenticated = false;
+  localStorage.removeItem('sessionId');
+  updateUIForGuest();
+}
+
+// --- UI para admin ---
 function updateUIForAdmin() {
-  // Show admin elements
-  document.querySelectorAll('.admin-only').forEach(el => {
-    el.style.display = '';
-  });
-  
-  // Show logout button, hide login button
+  document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
   document.getElementById('loginBtn').style.display = 'none';
   document.getElementById('logoutBtn').style.display = '';
-  
-  // Show contabilidad button
-  document.querySelector('[data-section="contabilidad"]').style.display = '';
-  
-  // Show consultas button
-  document.querySelector('[data-section="consultas"]').style.display = '';
+  const contBtn = document.querySelector('[data-section="contabilidad"]');
+  const consBtn = document.querySelector('[data-section="consultas"]');
+  if (contBtn) contBtn.style.display = '';
+  if (consBtn) consBtn.style.display = '';
 }
 
+// --- UI para visitante ---
 function updateUIForGuest() {
-  // Hide admin elements
   document.querySelectorAll('.admin-only').forEach(el => {
-    if (el.id !== 'loginBtn') {
-      el.style.display = 'none';
-    }
+    if (el.id !== 'loginBtn') el.style.display = 'none';
   });
-  
-  // Show login button, hide logout button
   document.getElementById('loginBtn').style.display = '';
   document.getElementById('logoutBtn').style.display = 'none';
-  
-  // Hide contabilidad button
-  const contabilidadBtn = document.querySelector('[data-section="contabilidad"]');
-  if (contabilidadBtn) {
-    contabilidadBtn.style.display = 'none';
-  }
-  
-  // Hide consultas button
-  const consultasBtn = document.querySelector('[data-section="consultas"]');
-  if (consultasBtn) {
-    consultasBtn.style.display = 'none';
-  }
+  const contBtn = document.querySelector('[data-section="contabilidad"]');
+  const consBtn = document.querySelector('[data-section="consultas"]');
+  if (contBtn) contBtn.style.display = 'none';
+  if (consBtn) consBtn.style.display = 'none';
 }
 
-// Login button handler
+// --- Abrir modal de login ---
 document.getElementById('loginBtn').addEventListener('click', () => {
-  const modal = document.getElementById('modal');
   const modalBody = document.getElementById('modalBody');
-  
   modalBody.innerHTML = `
-    <h2>Admin Login</h2>
-    <form id="loginForm" class="bid-form">
-      <input type="text" id="username" placeholder="Username" required autocomplete="username" value="admin">
-      <input type="password" id="password" placeholder="Password" required autocomplete="current-password" value="vintage2026">
-      <button type="submit">Login</button>
+    <h2>Inicio de sesión</h2>
+    <form id="loginForm" class="bid-form" autocomplete="off">
+      <input type="text" id="loginUsername" placeholder="Usuario" required autocomplete="off">
+      <input type="password" id="loginPassword" placeholder="Contraseña" required autocomplete="new-password">
+      <button type="submit">Entrar</button>
+      <p id="loginError" style="color:red; display:none; margin-top:10px;"></p>
     </form>
-    <p style="margin-top: 15px; color: #666; font-size: 0.9em;">
-      Default credentials:<br>
-      Username: <strong>admin</strong><br>
-      Password: <strong>vintage2026</strong>
-    </p>
   `;
-  
-  modal.style.display = 'block';
-  
+  // Limpiar campos por si el navegador los rellena de todas formas
+  setTimeout(() => {
+    const u = document.getElementById('loginUsername');
+    const p = document.getElementById('loginPassword');
+    if (u) u.value = '';
+    if (p) p.value = '';
+  }, 50);
+  document.getElementById('modal').style.display = 'block';
   document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     await handleLogin();
   });
 });
 
-// Logout button handler
-document.getElementById('logoutBtn').addEventListener('click', async () => {
-  if (!confirm('Are you sure you want to logout?')) return;
-  
-  try {
-    await originalFetch('/logout', {
-      method: 'POST',
-      headers: { 'x-session-id': sessionId }
-    });
-    
-    sessionId = null;
-    isAuthenticated = false;
-    localStorage.removeItem('sessionId');
-    updateUIForGuest();
-    
-    // Redirect to auctions
-    document.querySelector('[data-section="auctions"]').click();
-    
-    alert('Logged out successfully');
-  } catch (error) {
-    console.error('Error logging out:', error);
-  }
-});
-
+// --- Manejar login ---
 async function handleLogin() {
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value.trim();
-  
-  console.log('Attempting login...');
-  console.log('Username:', username);
-  console.log('Password:', password);
-  
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value.trim();
+  const errorEl = document.getElementById('loginError');
+
+  if (!username || !password) {
+    errorEl.textContent = 'Completa todos los campos.';
+    errorEl.style.display = 'block';
+    return;
+  }
+
   try {
-    const response = await originalFetch('/login', {
+    const res = await originalFetch('/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
     });
-    
-    console.log('Response status:', response.status);
-    const data = await response.json();
-    console.log('Response data:', data);
-    
+    const data = await res.json();
+
     if (data.success) {
       sessionId = data.sessionId;
       isAuthenticated = true;
       localStorage.setItem('sessionId', sessionId);
       updateUIForAdmin();
-      closeModal();
-      alert('Login successful!');
+      document.getElementById('modal').style.display = 'none';
     } else {
-      alert('Invalid credentials. Please try again.');
+      errorEl.textContent = data.error || 'Credenciales inválidas.';
+      errorEl.style.display = 'block';
     }
-  } catch (error) {
-    console.error('Error logging in:', error);
-    alert('Error logging in: ' + error.message);
+  } catch {
+    errorEl.textContent = 'Error de conexión. Intenta de nuevo.';
+    errorEl.style.display = 'block';
   }
 }
 
-// Override fetch to add session ID to requests (except login)
+// --- Logout ---
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  if (!confirm('¿Cerrar sesión?')) return;
+  try {
+    await originalFetch('/logout', {
+      method: 'POST',
+      headers: { 'x-session-id': sessionId }
+    });
+  } catch { /* ignorar error de red */ }
+  clearSession();
+  document.querySelector('[data-section="auctions"]').click();
+});
+
+// --- Interceptar fetch para añadir session ID automáticamente ---
 window.fetch = function(url, options = {}) {
-  // Don't add session to login request
-  if (url === '/login') {
-    return originalFetch.apply(this, [url, options]);
-  }
-  
+  if (url === '/login') return originalFetch(url, options);
   if (sessionId) {
-    options.headers = {
-      ...options.headers,
-      'x-session-id': sessionId
-    };
+    options.headers = { ...options.headers, 'x-session-id': sessionId };
   }
-  return originalFetch.apply(this, [url, options]);
+  return originalFetch(url, options);
 };
 
-// Check auth on page load
+// --- Iniciar ---
 checkAuth();
