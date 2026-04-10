@@ -7,10 +7,10 @@ const rateLimit = require('express-rate-limit');
 
 const app = express();
 
-// 🔥 FIX RENDER (PROXY)
+// 🔥 FIX PROXY (Render)
 app.set('trust proxy', 1);
 
-// --- Security headers ---
+// --- Seguridad ---
 app.use(helmet());
 
 // --- Middlewares ---
@@ -32,7 +32,7 @@ const generalLimiter = rateLimit({
 
 app.use(generalLimiter);
 
-// --- Session store ---
+// --- Sesiones ---
 const sessions = new Map();
 
 function generateSessionId() {
@@ -41,6 +41,7 @@ function generateSessionId() {
 
 const SESSION_TTL = 8 * 60 * 60 * 1000;
 
+// Limpieza de sesiones
 setInterval(() => {
   const now = Date.now();
   for (const [id, session] of sessions.entries()) {
@@ -56,11 +57,14 @@ function requireAuth(req, res, next) {
   if (!sessionId || !sessions.has(sessionId)) {
     return res.status(401).json({ error: 'No autorizado' });
   }
+
   const session = sessions.get(sessionId);
+
   if (Date.now() - session.loginTime > SESSION_TTL) {
     sessions.delete(sessionId);
     return res.status(401).json({ error: 'Sesión expirada' });
   }
+
   next();
 }
 
@@ -68,7 +72,7 @@ function requireAuth(req, res, next) {
 const ADMIN_USER = process.env.ADMIN_USER || 'admin';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'vintage2026';
 
-// --- Login ---
+// --- LOGIN ---
 app.post('/login', loginLimiter, (req, res) => {
   const { username, password } = req.body;
 
@@ -79,41 +83,45 @@ app.post('/login', loginLimiter, (req, res) => {
   if (username.trim() === ADMIN_USER && password.trim() === ADMIN_PASSWORD) {
     const sessionId = generateSessionId();
     sessions.set(sessionId, { username: ADMIN_USER, loginTime: Date.now() });
+
     return res.json({ success: true, sessionId });
   }
 
   res.status(401).json({ success: false, error: 'Credenciales inválidas' });
 });
 
-// --- Logout ---
+// --- LOGOUT ---
 app.post('/logout', (req, res) => {
   const sessionId = req.headers['x-session-id'];
   if (sessionId) sessions.delete(sessionId);
+
   res.json({ success: true });
 });
 
-// --- Check auth ---
+// --- CHECK AUTH ---
 app.get('/check-auth', (req, res) => {
   const sessionId = req.headers['x-session-id'];
+
   if (sessionId && sessions.has(sessionId)) {
     return res.json({ authenticated: true });
   }
+
   res.json({ authenticated: false });
 });
 
-// --- DB ---
+// --- BASE DE DATOS ---
 const db = new sqlite3.Database('./database.sqlite');
 
-// --- Rutas básicas ---
+// --- RUTA PRINCIPAL (FORZAR CACHE BREAK) ---
 app.get('/', (req, res) => {
-  res.send('Servidor funcionando 🚀');
+  res.send('Servidor funcionando 🚀 VERSION FINAL');
 });
 
-// --- ARRANQUE CORRECTO PARA RENDER ---
+// --- ARRANQUE ---
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
   console.log("USER REAL:", ADMIN_USER);
-console.log("PASS REAL:", ADMIN_PASSWORD);
+  console.log("PASS REAL:", ADMIN_PASSWORD);
   console.log(`Servidor corriendo en puerto ${PORT}`);
 });
