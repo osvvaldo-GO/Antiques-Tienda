@@ -113,5 +113,7 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
+  console.log("USER REAL:", ADMIN_USER);
+console.log("PASS REAL:", ADMIN_PASSWORD);
   console.log(`Servidor corriendo en puerto ${PORT}`);
 });
