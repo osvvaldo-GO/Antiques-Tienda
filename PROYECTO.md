@@ -192,7 +192,7 @@ git push
 
 ## 📋 Pendiente por Implementar
 
-- [ ] **Cloudinary** - Sistema profesional de imágenes (PRÓXIMA SESIÓN)
+- [x] **Cloudinary** - Sistema profesional de imágenes ✅ (integrado)
 - [ ] Ajuste fino del logo (pata derecha de la A más curvilínea)
 - [ ] Sistema de registro de clientes (opcional)
 - [ ] Carrito de compras (opcional, para futuro)
@@ -251,7 +251,7 @@ Invoke-RestMethod -Uri http://localhost:4000/generate-hash -Method POST -Content
 3. Copia el hash que devuelve y ponlo en `.env` como `ADMIN_PASSWORD_HASH`
 4. Reinicia el servidor
 
-### Próxima Sesión
-- Integrar Cloudinary para imágenes persistentes
-- Ajustes finales de diseño
-- Cargar stock real de productos
+### Sesión 4
+- Integración de Cloudinary para imágenes persistentes en producción
+- Fix de Content Security Policy (helmet) para permitir imágenes externas y handlers inline
+- Preview de imágenes ampliado a 400px
