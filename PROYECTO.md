@@ -21,7 +21,8 @@ El usuario es Oswaldo, estudiante universitario, proyecto académico.
 ## 🔐 Credenciales
 
 - **Admin usuario:** admin
-- **Admin contraseña:** vintage2026
+- **Admin contraseña:** guardada como hash bcrypt en `.env` (ADMIN_PASSWORD_HASH) — NO en texto plano
+- **Recuperación:** usar endpoint `/generate-hash` con el EMERGENCY_TOKEN del `.env`
 - **GitHub usuario:** osvvaldo-GO
 - **GitHub repositorio:** https://github.com/osvvaldo-GO/Antiques-Tienda
 - **Render servicio:** antiques-tienda (ID: SRV-D6RKL40GJCHC73BboIF0)
@@ -227,6 +228,28 @@ el estado actual y lo que falta por implementar.
 - Precios de compra ocultos al público
 - Publicación en GitHub + Render.com
 - URL en producción: https://antiques-tienda.onrender.com
+
+### Sesión 3
+- Mejoras de seguridad: contraseña ahora usa hash bcrypt (nunca en texto plano)
+- Eliminados console.log que exponían credenciales en logs
+- Servidor falla al arrancar si faltan variables de entorno (más seguro)
+- Agregado endpoint /generate-hash para recuperación de emergencia
+
+### Credenciales de acceso (guardar en lugar seguro)
+- **URL local:** http://localhost:4000
+- **URL producción:** https://antiques-tienda.onrender.com
+- **Admin usuario:** admin
+- **Admin contraseña:** vintage2026
+- **EMERGENCY_TOKEN:** CosaPeluda-2003 (para generar nuevo hash si olvidas la contraseña)
+
+### Cómo recuperar acceso si olvidas la contraseña
+1. Inicia el servidor: `npm start`
+2. En otra terminal ejecuta:
+```powershell
+Invoke-RestMethod -Uri http://localhost:4000/generate-hash -Method POST -ContentType "application/json" -Body '{"password":"nueva_contraseña","emergency_token":"CosaPeluda-2003"}'
+```
+3. Copia el hash que devuelve y ponlo en `.env` como `ADMIN_PASSWORD_HASH`
+4. Reinicia el servidor
 
 ### Próxima Sesión
 - Integrar Cloudinary para imágenes persistentes

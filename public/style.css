@@ -633,3 +633,84 @@ button:hover {
   background: #4caf50;
   color: white;
 }
+
+/* --- Área de subida de imágenes --- */
+.upload-area {
+  border: 2px dashed #00bcd4;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s;
+  background: #f9fefe;
+}
+
+.upload-area:hover {
+  background: #e0f7fa;
+}
+
+#uploadPlaceholder, #uploadPlaceholderSubasta {
+  color: #00bcd4;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+#uploadPlaceholder small, #uploadPlaceholderSubasta small {
+  color: #999;
+  display: block;
+  margin-top: 5px;
+}
+
+#uploadPreview, #uploadPreviewSubasta {
+  width: 100%;
+  max-height: 250px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.upload-progress {
+  color: #00bcd4;
+  font-size: 0.9em;
+  margin-top: 8px;
+}
+
+/* ============================================================
+   ÁREA DE SUBIDA DE IMÁGENES
+   ============================================================ */
+
+.upload-area {
+  border: 2px dashed #00bcd4;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  background: #f0fbfc;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.upload-area:hover {
+  background: #e0f7fa;
+}
+
+#uploadPlaceholder, #uploadPlaceholderSubasta {
+  color: #00bcd4;
+  font-size: 1em;
+  cursor: pointer;
+  padding: 10px;
+}
+
+#uploadPlaceholder small, #uploadPlaceholderSubasta small {
+  display: block;
+  color: #999;
+  margin-top: 5px;
+  font-size: 0.85em;
+}
+
+#uploadPreview, #uploadPreviewSubasta {
+  width: 100%;
+  max-height: 250px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-top: 10px;
+}

@@ -61,16 +61,25 @@
     <!-- Sección de Subastas -->
     <div id="auctions-section" class="content-section active">
       <div class="admin-section admin-only" style="display: none;">
-        <h2>Admin Panel - Auctions</h2>
+        <h2>Panel Admin - Subastas</h2>
         <form id="productForm">
-          <input type="text" id="nombre" placeholder="Item Name" required>
-          <textarea id="descripcion" placeholder="Description" rows="3"></textarea>
-          <input type="number" id="precio_inicial" placeholder="Starting Price" step="0.01" required>
-          <input type="number" id="duracion" placeholder="Duration (minutes)" required>
-          <input type="text" id="imagen" placeholder="Image filename (e.g., item.jpg) or URL">
+          <input type="text" id="nombre" placeholder="Nombre del artículo" required>
+          <textarea id="descripcion" placeholder="Descripción" rows="3"></textarea>
+          <input type="number" id="precio_inicial" placeholder="Precio inicial" step="0.01" required>
+          <input type="number" id="duracion" placeholder="Duración (minutos)" required>
+          <div class="upload-area" id="uploadAreaSubasta">
+            <label for="subasta_imagen_file" id="uploadPlaceholderSubasta" style="cursor:pointer; display:block;">
+              <input type="file" id="subasta_imagen_file" accept="image/*" style="display:none">
+              📷 Haz clic para subir una foto del artículo
+              <br><small>JPG, PNG, WEBP — máximo 5MB</small>
+            </label>
+            <img id="uploadPreviewSubasta" src="" alt="Vista previa" style="display:none; width:100%; max-height:250px; object-fit:contain; border-radius:8px; margin-top:10px;">
+            <button type="button" id="removeImageBtnSubasta" style="display:none; background:#f44336; margin-top:8px;" onclick="removeImageSubasta()">✕ Quitar foto</button>
+          </div>
+          <input type="hidden" id="imagen" value="">
           <div class="form-buttons">
-            <button type="submit">Publish Item</button>
-            <button type="button" id="resetForm">Reset Form</button>
+            <button type="submit">Publicar en Subasta</button>
+            <button type="button" id="resetForm">Limpiar</button>
           </div>
         </form>
       </div>
@@ -84,27 +93,36 @@
     <!-- Sección de Inventario -->
     <div id="inventory-section" class="content-section">
       <div class="admin-section admin-only" style="display: none;">
-        <h2>Admin Panel - Inventory</h2>
+        <h2>Agregar Artículo al Inventario</h2>
         <form id="inventoryForm">
-          <input type="text" id="inv_nombre" placeholder="Item Name" required>
-          <textarea id="inv_descripcion" placeholder="Description" rows="3"></textarea>
+          <input type="text" id="inv_nombre" placeholder="Nombre del artículo" required>
+          <textarea id="inv_descripcion" placeholder="Descripción" rows="3"></textarea>
           <select id="inv_categoria" required>
-            <option value="">Select Category</option>
+            <option value="">Seleccionar categoría</option>
             <option value="vitrina">Vitrina de Exhibición</option>
             <option value="muebles">Muebles</option>
             <option value="libros">Libros</option>
           </select>
-          <input type="number" id="inv_precio_compra" placeholder="Purchase Price" step="0.01" required>
-          <input type="number" id="inv_precio_venta" placeholder="Sale Price" step="0.01">
+          <input type="number" id="inv_precio_compra" placeholder="Precio de compra" step="0.01" required>
+          <input type="number" id="inv_precio_venta" placeholder="Precio de venta" step="0.01">
           <select id="inv_estado" required>
             <option value="disponible">Disponible</option>
-            <option value="vendido">Vendido</option>
             <option value="reservado">Reservado</option>
+            <option value="vendido">Vendido</option>
           </select>
-          <input type="text" id="inv_imagen" placeholder="Image filename (e.g., item.jpg) or URL">
+          <div class="upload-area" id="uploadArea">
+            <label for="inv_imagen_file" id="uploadPlaceholder" style="cursor:pointer; display:block;">
+              <input type="file" id="inv_imagen_file" accept="image/*" style="display:none">
+              📷 Haz clic para subir una foto del artículo
+              <br><small>JPG, PNG, WEBP — máximo 5MB</small>
+            </label>
+            <img id="uploadPreview" src="" alt="Vista previa" style="display:none; width:100%; max-height:250px; object-fit:contain; border-radius:8px; margin-top:10px;">
+            <button type="button" id="removeImageBtn" style="display:none; background:#f44336; margin-top:8px;" onclick="removeImage()">✕ Quitar foto</button>
+          </div>
+          <input type="hidden" id="inv_imagen_url" value="">
           <div class="form-buttons">
-            <button type="submit">Add to Inventory</button>
-            <button type="button" id="resetInventoryForm">Reset Form</button>
+            <button type="submit">Agregar al Inventario</button>
+            <button type="button" id="resetInventoryForm">Limpiar</button>
           </div>
         </form>
       </div>
