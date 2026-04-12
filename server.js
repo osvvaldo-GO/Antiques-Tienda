@@ -17,7 +17,18 @@ const app = express();
 app.set('trust proxy', 1);
 
 // --- Seguridad ---
-app.use(helmet({ crossOriginResourcePolicy: { policy: 'same-origin' } }));
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'same-origin' },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrcAttr: ["'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+    }
+  }
+}));
 
 // --- Cloudinary config ---
 cloudinary.config({
